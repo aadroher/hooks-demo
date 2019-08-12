@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import CurrencyForm from './components/currency-form';
 import ConversionTable from './components/conversion-table';
-import { getCurrencies, getCurrencyAttribute } from './utils/currencies';
+import { getCurrencies } from './utils/currencies';
 import './App.css';
 
 const fetchRates = async currencyCode => {
@@ -34,7 +34,7 @@ const App = () => {
   return (
     <div className="app">
       <h1>
-        <span role="img">💸</span> Convert my moneys
+        <span role="img">💸</span> Convert my moneys!
       </h1>
       <CurrencyForm
         currencies={currencies}
@@ -46,6 +46,8 @@ const App = () => {
       <ConversionTable
         currencies={currencies}
         selectedCurrency={selectedCurrency}
+        amount={amount}
+        rates={rates}
       />
     </div>
   );

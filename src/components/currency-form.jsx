@@ -1,6 +1,7 @@
 import React from 'react';
+import { getCurrencyAttribute } from '../utils/currencies';
 
-const CurrencyForm = ({ currencies, onChange }) => (
+const CurrencyForm = ({ currencies, selectedCurrency, onChange }) => (
   <div className="currency-input">
     <fieldset>
       <legend>Currency input</legend>
