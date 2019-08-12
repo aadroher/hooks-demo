@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Heading from './components/heading';
 import CurrencyForm from './components/currency-form';
 import ConversionTable from './components/conversion-table';
@@ -19,14 +19,27 @@ const fetchRates = async currencyCode => {
   };
 };
 
+const setTitle = ({ selectedCurrency, amount }) => {
+  const title =
+    selectedCurrency && amount
+      ? `Convert ${amount.toFixed(2)} ${selectedCurrency}`
+      : 'Select a currency and amount';
+  document.title = title;
+};
+
 const App = () => {
   const currencies = getCurrencies();
+
   const [state, setState] = useState({
     selectedCurrency: '',
     amount: 1,
     rates: {},
   });
   const { selectedCurrency, amount, rates } = state;
+
+  useEffect(() => {
+    setTitle({ selectedCurrency, amount });
+  });
 
   return (
     <div className="app">
@@ -35,21 +48,21 @@ const App = () => {
         currencies={currencies}
         selectedCurrency={selectedCurrency}
         onChangeCurrencySelection={async ({
-          target: { value: selectedCurrency },
+          target: { value: newSelectedCurrency },
         }) => {
-          const { rates } = await fetchRates(selectedCurrency);
+          const { rates: newRates } = await fetchRates(newSelectedCurrency);
           setState(prevState => ({
             ...prevState,
-            selectedCurrency,
-            rates,
+            selectedCurrency: newSelectedCurrency,
+            rates: newRates,
           }));
         }}
         amount={amount}
-        onChangeAmount={({ target: { value: amount } }) => {
-          console.log({ amount });
+        onChangeAmount={({ target: { value: amountSrt } }) => {
+          const newAmount = parseFloat(amountSrt, 10) || 0;
           setState(prevState => ({
             ...prevState,
-            amount,
+            amount: newAmount,
           }));
         }}
       />

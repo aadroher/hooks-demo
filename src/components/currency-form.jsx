@@ -1,8 +1,6 @@
 import React from 'react';
 import { getCurrencyAttribute } from '../utils/currencies';
 
-// const getCurrencyOptions = currencies =>
-
 const CurrencyForm = ({
   currencies,
   selectedCurrency,
