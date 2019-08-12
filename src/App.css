@@ -1,3 +1,10 @@
 .app {
   padding: 16px;
 }
+
+.conversion-table th,
+.conversion-table td {
+  padding-left: 8px;
+  padding-right: 8px;
+  text-align: center;
+}

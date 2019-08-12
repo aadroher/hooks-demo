@@ -1,12 +1,10 @@
 import React from 'react';
 
 const getValueString = (rates, currencyCode, selectedCurrencyCode, amount) => {
-  if (currencyCode === selectedCurrencyCode) {
-    return '1';
-  } else {
-    const value = (rates || {})[currencyCode] * amount;
-    return value ? value.toFixed(2) : '--';
-  }
+  const rate =
+    currencyCode !== selectedCurrencyCode ? (rates || {})[currencyCode] : 1;
+  const value = rate * amount;
+  return !isNaN(value) ? value.toFixed(2) : '--';
 };
 
 const ConversionTable = ({ currencies, selectedCurrency, amount, rates }) => (
@@ -16,7 +14,8 @@ const ConversionTable = ({ currencies, selectedCurrency, amount, rates }) => (
         <tr>
           {currencies.map(({ code, flag }) => (
             <th key={code}>
-              {flag} {code}
+              {flag}
+              {code}
             </th>
           ))}
         </tr>

@@ -27,7 +27,6 @@ const App = () => {
     rates: {},
   });
   const { selectedCurrency, amount, rates } = state;
-  console.log({ state });
 
   return (
     <div className="app">
