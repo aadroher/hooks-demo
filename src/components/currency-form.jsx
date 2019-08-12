@@ -1,13 +1,28 @@
 import React from 'react';
 import { getCurrencyAttribute } from '../utils/currencies';
 
-const CurrencyForm = ({ currencies, selectedCurrency, onChange }) => (
+// const getCurrencyOptions = currencies =>
+
+const CurrencyForm = ({
+  currencies,
+  selectedCurrency,
+  onChangeCurrencySelection,
+  amount,
+  onChangeAmount,
+}) => (
   <div className="currency-input">
     <fieldset>
       <legend>Currency input</legend>
       <label htmlFor="currency-select">Select your currency:</label> <br />
-      <select id="currency-select" value={selectedCurrency} onChange={onChange}>
-        {currencies.map(({ code, name }) => (
+      <select
+        id="currency-select"
+        value={selectedCurrency}
+        onChange={onChangeCurrencySelection}
+      >
+        {[
+          { code: '', name: '--Please choose a currency--' },
+          ...currencies,
+        ].map(({ code, name }) => (
           <option value={code} key={code}>
             {name}
           </option>
@@ -17,7 +32,7 @@ const CurrencyForm = ({ currencies, selectedCurrency, onChange }) => (
       <label htmlFor="currency-amount">Enter an amount:</label>
       <br />
       {getCurrencyAttribute(selectedCurrency, 'symbol')}
-      <input type="number" />
+      <input type="number" value={amount} onChange={onChangeAmount} />
     </fieldset>
   </div>
 );

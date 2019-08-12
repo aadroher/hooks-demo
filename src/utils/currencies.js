@@ -19,10 +19,7 @@ const currencies = [
   },
 ];
 
-const getCurrencies = () => [
-  { code: '', name: '--Please choose a currency--' },
-  ...currencies,
-];
+const getCurrencies = () => currencies;
 
 const getCurrencyAttribute = (selectedCode, attributeName) => {
   const currency = currencies.find(({ code }) => selectedCode === code) || {};

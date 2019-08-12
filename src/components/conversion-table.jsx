@@ -1,17 +1,19 @@
 import React from 'react';
-import { getCurrencyAttribute } from '../utils/currencies';
 
-const getValueString = (rates, currencyCode, selectedCurrencyCode, amount) =>
-  currencyCode !== selectedCurrencyCode
-    ? ((rates || {})[currencyCode] * amount).toFixed(2)
-    : '1';
+const getValueString = (rates, currencyCode, selectedCurrencyCode, amount) => {
+  if (currencyCode === selectedCurrencyCode) {
+    return '1';
+  } else {
+    const value = (rates || {})[currencyCode] * amount;
+    return value ? value.toFixed(2) : '--';
+  }
+};
 
 const ConversionTable = ({ currencies, selectedCurrency, amount, rates }) => (
   <div className="conversion-table">
     <table>
       <thead>
         <tr>
-          <th> </th>
           {currencies.map(({ code, flag }) => (
             <th key={code}>
               {flag} {code}
@@ -21,17 +23,10 @@ const ConversionTable = ({ currencies, selectedCurrency, amount, rates }) => (
       </thead>
       <tbody>
         <tr>
-          <td>
-            {selectedCurrency &&
-              `${getCurrencyAttribute(currencies, {
-                selectedCurrency,
-                attributeName: 'symbol',
-              })} ${amount}`}
-          </td>
           {currencies.map(({ code, symbol }) => (
             <td key={code}>
               <span role="img">{symbol}</span>
-              {` ${getValueString(rates, code, selectedCurrency, amount)}`}
+              {`${getValueString(rates, code, selectedCurrency, amount)}`}
             </td>
           ))}
         </tr>

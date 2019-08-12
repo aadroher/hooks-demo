@@ -1,25 +1,22 @@
 import React, { useState } from 'react';
+import Heading from './components/heading';
 import CurrencyForm from './components/currency-form';
 import ConversionTable from './components/conversion-table';
 import { getCurrencies } from './utils/currencies';
 import './App.css';
 
 const fetchRates = async currencyCode => {
-  const response = await fetch(`/latest?base=${currencyCode}`);
-  if (response.ok) {
-    return response.json();
-  } else {
-    console.log('OUCH!');
-    throw new Error(`${response.status} - ${response.statusText}`);
+  if (currencyCode) {
+    const response = await fetch(`/latest?base=${currencyCode}`);
+    if (response.ok) {
+      return response.json();
+    } else {
+      throw new Error(`${response.status} - ${response.statusText}`);
+    }
   }
-};
-
-const updateRates = async (selectedCurrency, state, setState) => {
-  const responseBody = await fetchRates(selectedCurrency);
-  console.log({ responseBody });
-  const { rates } = responseBody;
-  console.log({ rates });
-  setState({ ...state, selectedCurrency, rates });
+  return {
+    rates: [],
+  };
 };
 
 const App = () => {
@@ -30,17 +27,31 @@ const App = () => {
     rates: {},
   });
   const { selectedCurrency, amount, rates } = state;
+  console.log({ state });
 
   return (
     <div className="app">
-      <h1>
-        <span role="img">💸</span> Convert my moneys!
-      </h1>
+      <Heading />
       <CurrencyForm
         currencies={currencies}
         selectedCurrency={selectedCurrency}
-        onChange={async ({ target: { value } }) => {
-          await updateRates(value, state, setState);
+        onChangeCurrencySelection={async ({
+          target: { value: selectedCurrency },
+        }) => {
+          const { rates } = await fetchRates(selectedCurrency);
+          setState(prevState => ({
+            ...prevState,
+            selectedCurrency,
+            rates,
+          }));
+        }}
+        amount={amount}
+        onChangeAmount={({ target: { value: amount } }) => {
+          console.log({ amount });
+          setState(prevState => ({
+            ...prevState,
+            amount,
+          }));
         }}
       />
       <ConversionTable
