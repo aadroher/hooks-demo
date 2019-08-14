@@ -5,9 +5,9 @@ import ConversionTable from './components/conversion-table';
 import { getCurrencies } from './utils/currencies';
 import './App.css';
 
-import eurRates from '../data/eur.json';
-import gbpRates from '../data/gbp.json';
-import usdRates from '../data/usd.json';
+import eurRates from './data/eur.json';
+import gbpRates from './data/gbp.json';
+import usdRates from './data/usd.json';
 
 const fetchRates = async currencyCode => {
   switch (currencyCode) {
