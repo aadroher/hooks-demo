@@ -23,7 +23,7 @@ const setTitle = ({ selectedCurrency, amount }) => {
   const title =
     selectedCurrency && amount
       ? `Convert ${amount.toFixed(2)} ${selectedCurrency}`
-      : 'Select a currency and amount';
+      : 'Select currency and amount';
   document.title = title;
 };
 
