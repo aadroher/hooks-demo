@@ -5,18 +5,21 @@ import ConversionTable from './components/conversion-table';
 import { getCurrencies } from './utils/currencies';
 import './App.css';
 
+import eurRates from '../data/eur.json';
+import gbpRates from '../data/gbp.json';
+import usdRates from '../data/usd.json';
+
 const fetchRates = async currencyCode => {
-  if (currencyCode) {
-    const response = await fetch(`/latest?base=${currencyCode}`);
-    if (response.ok) {
-      return response.json();
-    } else {
-      throw new Error(`${response.status} - ${response.statusText}`);
-    }
+  switch (currencyCode) {
+    case 'EUR':
+      return eurRates;
+    case 'GBP':
+      return gbpRates;
+    case 'USD':
+      return usdRates;
+    default:
+      return { rates: [] };
   }
-  return {
-    rates: [],
-  };
 };
 
 const setTitle = ({ selectedCurrency, amount }) => {
